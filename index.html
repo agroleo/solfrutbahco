@@ -76,6 +76,12 @@
             font-size: 12px;
             font-weight: bold;
             overflow: hidden;
+            cursor: pointer; /* Agregado cursor de mano para indicar que es clickeable */
+            transition: opacity 0.2s;
+        }
+
+        .logo-box:hover {
+            opacity: 0.7; /* Efecto visual al pasar el mouse */
         }
 
         .logo-box img {
@@ -220,28 +226,28 @@
     <!-- Hoja A4 -->
     <div class="a4-container">
         
-        <!-- NUEVO: ESPACIO PARA LOS 3 LOGOS -->
+        <!-- ESPACIO PARA LOS 3 LOGOS (CLICK PARA CARGAR) -->
         <div class="logos-header">
+            
             <!-- LOGO 1: +VOS -->
-            <div class="logo-box">
-                <!-- Cuando tengas tu logo, borra el texto "Logo +VOS" y descomenta la etiqueta img -->
-                Logo +VOS
-                <!-- <img src="URL_DE_TU_LOGO_MASVOS.png" alt="+VOS"> -->
+            <div class="logo-box" style="border: none; background: transparent;" onclick="document.getElementById('inputLogo1').click()" title="Haz clic para cargar el logo de +VOS">
+                <img id="imgLogo1" src="https://placehold.co/200x80/f8fafc/94a3b8?text=Clic+aqui+para+logo++VOS" alt="Logo +VOS">
+                <!-- Input oculto para subir archivo -->
+                <input type="file" id="inputLogo1" accept="image/*" style="display: none;" onchange="cargarLogoLocal(event, 'imgLogo1')">
             </div>
             
             <!-- LOGO 2: AGROCONSULTA -->
-            <div class="logo-box">
-                <!-- Cuando tengas tu logo, borra el texto "Logo Agroconsulta" y descomenta la etiqueta img -->
-                Logo Agroconsulta
-                <!-- <img src="URL_DE_TU_LOGO_AGROCONSULTA.png" alt="Agroconsulta"> -->
+            <div class="logo-box" style="border: none; background: transparent;" onclick="document.getElementById('inputLogo2').click()" title="Haz clic para cargar el logo de Agroconsulta">
+                <img id="imgLogo2" src="https://placehold.co/200x80/f8fafc/94a3b8?text=Clic+aqui+para+AGROCONSULTA" alt="Logo Agroconsulta">
+                <input type="file" id="inputLogo2" accept="image/*" style="display: none;" onchange="cargarLogoLocal(event, 'imgLogo2')">
             </div>
             
             <!-- LOGO 3: BAHCO -->
-            <div class="logo-box">
-                <!-- Cuando tengas tu logo, borra el texto "Logo Bahco" y descomenta la etiqueta img -->
-                Logo Bahco
-                <!-- <img src="URL_DE_TU_LOGO_BAHCO.png" alt="Bahco"> -->
+            <div class="logo-box" style="border: none; background: transparent;" onclick="document.getElementById('inputLogo3').click()" title="Haz clic para cargar el logo de Bahco">
+                <img id="imgLogo3" src="https://placehold.co/200x80/f8fafc/94a3b8?text=Clic+aqui+para+BAHCO" alt="Logo Bahco">
+                <input type="file" id="inputLogo3" accept="image/*" style="display: none;" onchange="cargarLogoLocal(event, 'imgLogo3')">
             </div>
+
         </div>
 
         <!-- Encabezado de Datos -->
@@ -333,5 +339,20 @@
 
     </div>
 
+    <!-- SCRIPT PARA CARGAR LAS IMÁGENES AL HACER CLIC -->
+    <script>
+        function cargarLogoLocal(event, imgId) {
+            const archivo = event.target.files[0];
+            if (archivo) {
+                // Lee el archivo local que el usuario seleccionó
+                const lector = new FileReader();
+                lector.onload = function(e) {
+                    // Reemplaza la imagen temporal por la que subió el usuario
+                    document.getElementById(imgId).src = e.target.result;
+                }
+                lector.readAsDataURL(archivo);
+            }
+        }
+    </script>
 </body>
 </html>
