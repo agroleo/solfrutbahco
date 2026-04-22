@@ -55,10 +55,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #e2e8f0;
-            height: 80px; /* Alto fijo para alinear logos */
+            background-color: #059669; /* Zócalo verde profesional */
+            padding: 15px 20px;
+            border-radius: 8px; /* Bordes redondeados */
+            margin-bottom: 25px;
+            height: 110px; /* Un poco más de altura para que el zócalo respire */
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
         }
         
         .logo-box {
@@ -67,27 +69,29 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            /* Estos estilos de fondo y borde punteado son para que veas dónde van.
-               Se pueden borrar una vez que pongas las imágenes reales */
-            background-color: #f8fafc;
-            border: 1px dashed #cbd5e1; 
+            /* Se ve transparente pero con un borde blanco punteado suave para guiar el clic */
+            background-color: transparent;
+            border: 1px dashed rgba(255, 255, 255, 0.4); 
             border-radius: 4px;
-            color: #94a3b8;
+            color: #ffffff;
             font-size: 12px;
             font-weight: bold;
             overflow: hidden;
             cursor: pointer; /* Agregado cursor de mano para indicar que es clickeable */
-            transition: opacity 0.2s;
+            transition: opacity 0.2s, background-color 0.2s;
         }
 
         .logo-box:hover {
-            opacity: 0.7; /* Efecto visual al pasar el mouse */
+            opacity: 0.8; /* Efecto visual al pasar el mouse */
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         .logo-box img {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain; /* Ajusta la imagen sin deformarla */
+            /* Si la imagen que subís tiene fondo blanco, esto asegurará que se vea el recuadro blanco entero */
+            background-color: transparent; 
         }
 
         /* 2. DATOS DE LA EMPRESA Y DOCUMENTO */
@@ -226,25 +230,25 @@
     <!-- Hoja A4 -->
     <div class="a4-container">
         
-        <!-- ESPACIO PARA LOS 3 LOGOS (CLICK PARA CARGAR) -->
+        <!-- ESPACIO PARA LOS 3 LOGOS CON ZÓCALO VERDE (CLICK PARA CARGAR) -->
         <div class="logos-header">
             
             <!-- LOGO 1: +VOS -->
-            <div class="logo-box" style="border: none; background: transparent;" onclick="document.getElementById('inputLogo1').click()" title="Haz clic para cargar el logo de +VOS">
-                <img id="imgLogo1" src="https://placehold.co/200x80/f8fafc/94a3b8?text=Clic+aqui+para+logo++VOS" alt="Logo +VOS">
+            <div class="logo-box" onclick="document.getElementById('inputLogo1').click()" title="Haz clic para cargar el logo de +VOS">
+                <img id="imgLogo1" src="https://placehold.co/200x80/059669/ffffff?text=Clic+aqui+para+logo++VOS" alt="Logo +VOS">
                 <!-- Input oculto para subir archivo -->
                 <input type="file" id="inputLogo1" accept="image/*" style="display: none;" onchange="cargarLogoLocal(event, 'imgLogo1')">
             </div>
             
             <!-- LOGO 2: AGROCONSULTA -->
-            <div class="logo-box" style="border: none; background: transparent;" onclick="document.getElementById('inputLogo2').click()" title="Haz clic para cargar el logo de Agroconsulta">
-                <img id="imgLogo2" src="https://placehold.co/200x80/f8fafc/94a3b8?text=Clic+aqui+para+AGROCONSULTA" alt="Logo Agroconsulta">
+            <div class="logo-box" onclick="document.getElementById('inputLogo2').click()" title="Haz clic para cargar el logo de Agroconsulta">
+                <img id="imgLogo2" src="https://placehold.co/200x80/059669/ffffff?text=Clic+aqui+para+AGROCONSULTA" alt="Logo Agroconsulta">
                 <input type="file" id="inputLogo2" accept="image/*" style="display: none;" onchange="cargarLogoLocal(event, 'imgLogo2')">
             </div>
             
             <!-- LOGO 3: BAHCO -->
-            <div class="logo-box" style="border: none; background: transparent;" onclick="document.getElementById('inputLogo3').click()" title="Haz clic para cargar el logo de Bahco">
-                <img id="imgLogo3" src="https://placehold.co/200x80/f8fafc/94a3b8?text=Clic+aqui+para+BAHCO" alt="Logo Bahco">
+            <div class="logo-box" onclick="document.getElementById('inputLogo3').click()" title="Haz clic para cargar el logo de Bahco">
+                <img id="imgLogo3" src="https://placehold.co/200x80/059669/ffffff?text=Clic+aqui+para+BAHCO" alt="Logo Bahco">
                 <input type="file" id="inputLogo3" accept="image/*" style="display: none;" onchange="cargarLogoLocal(event, 'imgLogo3')">
             </div>
 
