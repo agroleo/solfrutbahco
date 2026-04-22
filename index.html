@@ -30,20 +30,41 @@
                 page-break-inside: avoid;
                 break-inside: avoid;
             }
-            /* Compactar tablas en impresión */
+            
+            /* Reducción drástica de tipografía y espaciados para asegurar 1 sola página */
+            h1 { font-size: 20px !important; margin-bottom: 2px !important; }
+            h2 { font-size: 16px !important; margin-bottom: 0 !important; }
+            p { font-size: 11px !important; margin-top: 0 !important; margin-bottom: 2px !important; }
+            .border-b-2 { border-bottom-width: 1px !important; padding-bottom: 8px !important; margin-bottom: 8px !important; }
+            
             .table-xs th, .table-xs td {
-                font-size: 0.75rem !important;
-                padding: 0.25rem !important; /* Rellenos mínimos */
+                font-size: 11px !important;
+                padding: 4px !important;
             }
-            /* Compactar totales en impresión */
-            .totals-compact {
-                font-size: 0.85rem !important;
-                padding: 0.5rem !important;
-            }
-            /* Compactar alertas en impresión */
+            .mb-4 { margin-bottom: 8px !important; }
+            
             .alert-compact {
-                padding: 0.5rem !important;
+                padding: 6px !important;
             }
+            .alert-compact p { font-size: 10px !important; line-height: 1.2 !important; }
+            .alert-compact svg { width: 16px !important; height: 16px !important; }
+            
+            .totals-compact {
+                padding: 8px !important;
+            }
+            .totals-compact span { font-size: 12px !important; }
+            .totals-compact .text-xl { font-size: 14px !important; }
+            
+            /* CRÍTICO: Evitar que el Total se apile verticalmente debajo de la Nota en impresión */
+            .print-bottom-section {
+                display: flex !important;
+                flex-direction: row !important;
+                justify-content: space-between !important;
+                align-items: flex-end !important;
+                gap: 16px !important;
+            }
+            .print-w-half { width: 55% !important; }
+            .print-w-third { width: 40% !important; }
         }
     </style>
 </head>
@@ -114,9 +135,9 @@
             </table>
         </div>
 
-        <div class="flex flex-col md:flex-row justify-between items-end gap-4 avoid-break">
+        <div class="flex flex-col md:flex-row justify-between items-end gap-4 avoid-break print-bottom-section">
             
-            <div class="w-full md:w-1/2 mb-4 md:mb-0 alert-compact">
+            <div class="w-full md:w-1/2 mb-4 md:mb-0 alert-compact print-w-half">
                 <div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-r">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
@@ -136,7 +157,7 @@
                 </div>
             </div>
 
-            <div class="w-full md:w-1/3 bg-gray-50 p-6 rounded border border-gray-200 totals-compact">
+            <div class="w-full md:w-1/3 bg-gray-50 p-6 rounded border border-gray-200 totals-compact print-w-third">
                 <div class="flex justify-between mb-2">
                     <span class="text-gray-600 font-medium">Subtotal:</span>
                     <span class="text-gray-800 font-semibold">$ 3.746.028,17</span>
