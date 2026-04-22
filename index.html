@@ -14,47 +14,50 @@
             }
             @page {
                 size: A4 portrait; /* Fuerza tamaño A4 vertical */
-                margin: 1cm; /* Márgenes mínimos para el papel */
+                margin: 0.5cm; /* Márgenes súper reducidos para el papel */
             }
             .no-print {
-                display: none;
+                display: none !important;
             }
             .print-a4-width {
-                max-width: 19cm !important; /* Ancho A4 (21cm) - márgenes (2cm total) */
-                margin-left: auto;
-                margin-right: auto;
-                padding: 1.5rem !important; /* Compactar padding para impresión */
+                max-width: 100% !important; /* Ajuste total al ancho de impresión */
+                margin: 0 !important;
+                padding: 0 !important; /* Quita paddings extra en impresión */
                 box-shadow: none !important;
                 border: none !important;
             }
+            .avoid-break {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
             /* Compactar tablas en impresión */
             .table-xs th, .table-xs td {
-                font-size: 0.7rem !important;
-                padding: 0.5rem !important;
+                font-size: 0.75rem !important;
+                padding: 0.25rem !important; /* Rellenos mínimos */
             }
             /* Compactar totales en impresión */
             .totals-compact {
-                font-size: 0.8rem !important;
-                padding: 1rem !important;
+                font-size: 0.85rem !important;
+                padding: 0.5rem !important;
             }
             /* Compactar alertas en impresión */
             .alert-compact {
-                padding: 1rem !important;
+                padding: 0.5rem !important;
             }
         }
     </style>
 </head>
-<body class="bg-gray-100 p-4 md:p-6 font-sans text-gray-800">
+<body class="bg-gray-100 p-2 md:p-4 font-sans text-gray-800 print:bg-white print:p-0">
 
-    <div class="max-w-4xl mx-auto mb-4 no-print flex justify-end">
+    <div class="max-w-4xl mx-auto mb-4 no-print print:hidden flex justify-end">
         <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow">
-            🖨️ Guardar como PDF (Prueba la vista previa)
+            🖨️ Guardar como PDF
         </button>
     </div>
 
-    <div class="print-a4-width max-w-4xl mx-auto bg-white p-6 md:p-8 shadow-lg rounded-sm print-shadow-none border border-gray-200">
+    <div class="print-a4-width max-w-4xl mx-auto bg-white p-4 md:p-6 shadow-lg rounded-sm print-shadow-none border border-gray-200">
         
-        <div class="flex flex-col md:flex-row justify-between items-start border-b-2 border-gray-300 pb-4 mb-5">
+        <div class="flex flex-col md:flex-row justify-between items-start border-b-2 border-gray-300 pb-2 mb-4">
             <div>
                 <h1 class="text-3xl font-bold text-gray-900 mb-2">AGROCONSULTA SRL</h1>
                 <p class="text-sm text-gray-600">O'Higgins Este 1289</p>
@@ -67,53 +70,53 @@
             </div>
         </div>
 
-        <div class="overflow-x-auto mb-6">
+        <div class="overflow-x-auto mb-4">
             <table class="w-full text-left border-collapse table-xs">
                 <thead>
                     <tr class="bg-gray-100 text-gray-700 uppercase text-xs leading-normal border-b-2 border-gray-300">
-                        <th class="py-2 px-4 w-24 text-center">Cantidad</th>
-                        <th class="py-2 px-4 w-40">Código</th>
-                        <th class="py-2 px-4">Detalle del Artículo</th>
+                        <th class="py-1 px-2 w-24 text-center">Cantidad</th>
+                        <th class="py-1 px-2 w-40">Código</th>
+                        <th class="py-1 px-2">Detalle del Artículo</th>
                     </tr>
                 </thead>
                 <tbody class="text-gray-700 text-xs">
                     <tr class="border-b border-gray-200 hover:bg-gray-50">
-                        <td class="py-2 px-4 text-center font-semibold">30,00</td>
-                        <td class="py-2 px-4 text-gray-500">016001000115006</td>
-                        <td class="py-2 px-4 font-medium">TIJERON PODAR BAHCO - P16-60-F TWO HAND LOPPER 60c</td>
+                        <td class="py-1 px-2 text-center font-semibold">30,00</td>
+                        <td class="py-1 px-2 text-gray-500">016001000115006</td>
+                        <td class="py-1 px-2 font-medium">TIJERON PODAR BAHCO - P16-60-F TWO HAND LOPPER 60c</td>
                     </tr>
                     <tr class="border-b border-gray-200 hover:bg-gray-50">
-                        <td class="py-2 px-4 text-center font-semibold">100,00</td>
-                        <td class="py-2 px-4 text-gray-500">016001000115015</td>
-                        <td class="py-2 px-4 font-medium">TIJERON PODAR BAHCO REPUESTO - TOPE R515VS-BULK50 (1) C/U</td>
+                        <td class="py-1 px-2 text-center font-semibold">100,00</td>
+                        <td class="py-1 px-2 text-gray-500">016001000115015</td>
+                        <td class="py-1 px-2 font-medium">TIJERON PODAR BAHCO REPUESTO - TOPE R515VS-BULK50 (1) C/U</td>
                     </tr>
                     <tr class="border-b border-gray-200 hover:bg-gray-50">
-                        <td class="py-2 px-4 text-center font-semibold">50,00</td>
-                        <td class="py-2 px-4 text-gray-500">016001000115018</td>
-                        <td class="py-2 px-4 font-medium">TIJERON PODAR BAHCO REPUESTO - JUEGO R143PVCB-BULK50 P/P16-1 C/</td>
+                        <td class="py-1 px-2 text-center font-semibold">50,00</td>
+                        <td class="py-1 px-2 text-gray-500">016001000115018</td>
+                        <td class="py-1 px-2 font-medium">TIJERON PODAR BAHCO REPUESTO - JUEGO R143PVCB-BULK50 P/P16-1 C/</td>
                     </tr>
                     <tr class="border-b border-gray-200 hover:bg-gray-50">
-                        <td class="py-2 px-4 text-center font-semibold">50,00</td>
-                        <td class="py-2 px-4 text-gray-500">016001000115017</td>
-                        <td class="py-2 px-4 font-medium">TIJERON PODAR BAHCO REPUESTO - HOJA R116V-BULK36 P/P16 (1) C/U</td>
+                        <td class="py-1 px-2 text-center font-semibold">50,00</td>
+                        <td class="py-1 px-2 text-gray-500">016001000115017</td>
+                        <td class="py-1 px-2 font-medium">TIJERON PODAR BAHCO REPUESTO - HOJA R116V-BULK36 P/P16 (1) C/U</td>
                     </tr>
                     <tr class="border-b border-gray-200 hover:bg-gray-50">
-                        <td class="py-2 px-4 text-center font-semibold">30,00</td>
-                        <td class="py-2 px-4 text-gray-500">016001000115284</td>
-                        <td class="py-2 px-4 font-medium">TIJERON PODAR BAHCO REPUESTO - CONTRAHOJA R716VCB P/P16 (1) C/U</td>
+                        <td class="py-1 px-2 text-center font-semibold">30,00</td>
+                        <td class="py-1 px-2 text-gray-500">016001000115284</td>
+                        <td class="py-1 px-2 font-medium">TIJERON PODAR BAHCO REPUESTO - CONTRAHOJA R716VCB P/P16 (1) C/U</td>
                     </tr>
                     <tr class="border-b border-gray-200 hover:bg-gray-50">
-                        <td class="py-2 px-4 text-center font-semibold">30,00</td>
-                        <td class="py-2 px-4 text-gray-500">016001000115016</td>
-                        <td class="py-2 px-4 font-medium">TIJERON PODAR BAHCO REPUESTO - PERNO R615V PARA P14, P16 (1) C/U</td>
+                        <td class="py-1 px-2 text-center font-semibold">30,00</td>
+                        <td class="py-1 px-2 text-gray-500">016001000115016</td>
+                        <td class="py-1 px-2 font-medium">TIJERON PODAR BAHCO REPUESTO - PERNO R615V PARA P14, P16 (1) C/U</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <div class="flex flex-col md:flex-row justify-between items-end gap-6">
+        <div class="flex flex-col md:flex-row justify-between items-end gap-4 avoid-break">
             
-            <div class="w-full md:w-1/2 mb-6 md:mb-0 alert-compact">
+            <div class="w-full md:w-1/2 mb-4 md:mb-0 alert-compact">
                 <div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-r">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
@@ -142,7 +145,7 @@
                     <span class="text-gray-600 font-medium">IVA (21%):</span>
                     <span class="text-gray-800 font-semibold">$ 786.665,92</span>
                 </div>
-                <div class="flex justify-between mt-4">
+                <div class="flex justify-between mt-2">
                     <span class="text-xl font-bold text-gray-900">TOTAL:</span>
                     <span class="text-xl font-bold text-blue-700">$ 4.532.694,09</span>
                 </div>
@@ -150,7 +153,7 @@
 
         </div>
 
-        <div class="mt-10 pt-4 border-t border-gray-200 text-center text-xs text-gray-400">
+        <div class="mt-6 pt-2 border-t border-gray-200 text-center text-xs text-gray-400">
             Los precios y la disponibilidad están sujetos a cambios. Este presupuesto tiene validez por 15 días.
         </div>
     </div>
