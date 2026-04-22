@@ -5,200 +5,260 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Presupuesto - Agroconsulta SRL</title>
     <style>
-        /* CSS Puro y Estricto para garantizar A4 */
+        /* RESETEO Y FUENTES */
         * {
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
         }
         
         body {
-            background-color: #525659; /* Fondo oscuro tipo lector de PDF para la pantalla */
-            margin: 0;
-            padding: 20px;
+            background-color: #cbd5e1; /* Fondo gris para la vista web */
             display: flex;
             flex-direction: column;
             align-items: center;
+            padding: 20px;
         }
 
-        /* Botón de Imprimir */
+        /* BOTÓN DE IMPRIMIR */
+        .no-print {
+            margin-bottom: 20px;
+        }
         .btn-imprimir {
-            background-color: #2563eb;
+            background-color: #059669; /* Verde profesional */
             color: white;
             border: none;
-            padding: 12px 24px;
+            padding: 14px 28px;
             font-size: 16px;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
-            margin-bottom: 20px;
             font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: background 0.2s;
         }
-        .btn-imprimir:hover {
-            background-color: #1d4ed8;
-        }
+        .btn-imprimir:hover { background-color: #047857; }
 
-        /* Contenedor estricto tamaño A4 */
+        /* CONTENEDOR A4 EXACTO */
         .a4-container {
             background-color: white;
             width: 210mm;
-            min-height: 297mm;
-            padding: 15mm; /* Margen interno de la hoja */
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            position: relative;
+            min-height: 297mm; /* Alto en pantalla */
+            padding: 15mm 20mm; /* Márgenes internos: Arriba/Abajo 15mm, Lados 20mm */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
             display: flex;
             flex-direction: column;
         }
 
-        /* Encabezado */
-        .header {
+        /* 1. SECCIÓN DE LOGOS (NUEVO) */
+        .logos-header {
             display: flex;
             justify-content: space-between;
-            border-bottom: 2px solid #ccc;
+            align-items: center;
+            margin-bottom: 20px;
             padding-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+            height: 80px; /* Alto fijo para alinear logos */
+        }
+        
+        .logo-box {
+            width: 30%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Estos estilos de fondo y borde punteado son para que veas dónde van.
+               Se pueden borrar una vez que pongas las imágenes reales */
+            background-color: #f8fafc;
+            border: 1px dashed #cbd5e1; 
+            border-radius: 4px;
+            color: #94a3b8;
+            font-size: 12px;
+            font-weight: bold;
+            overflow: hidden;
+        }
+
+        .logo-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; /* Ajusta la imagen sin deformarla */
+        }
+
+        /* 2. DATOS DE LA EMPRESA Y DOCUMENTO */
+        .info-section {
+            display: flex;
+            justify-content: space-between;
             margin-bottom: 25px;
         }
-        .empresa h1 { margin: 0 0 5px 0; font-size: 26px; color: #111; }
-        .empresa p { margin: 3px 0; font-size: 13px; color: #444; }
+        .empresa h1 { font-size: 22px; color: #0f172a; margin-bottom: 5px; text-transform: uppercase; }
+        .empresa p { font-size: 13px; color: #475569; margin-bottom: 3px; }
+        .empresa .telefono { font-weight: bold; color: #334155; margin-top: 5px; }
         
-        .info-doc { text-align: right; }
-        .info-doc h2 { margin: 0 0 8px 0; font-size: 22px; color: #666; text-transform: uppercase; }
-        .info-doc p { margin: 3px 0; font-size: 13px; font-weight: bold; color: #333; }
+        .documento-info { text-align: right; }
+        .documento-info h2 { font-size: 24px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .documento-info p { font-size: 14px; font-weight: bold; color: #0f172a; }
 
-        /* Tabla */
+        /* 3. TABLA DE ARTÍCULOS */
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 30px;
         }
         th {
-            background-color: #f3f4f6;
+            background-color: #f1f5f9;
             text-align: left;
-            padding: 10px 8px;
-            font-size: 13px;
+            padding: 12px 8px;
+            font-size: 12px;
+            color: #475569;
             border-bottom: 2px solid #cbd5e1;
             text-transform: uppercase;
         }
         td {
-            padding: 10px 8px;
+            padding: 12px 8px;
             font-size: 13px;
+            color: #1e293b;
             border-bottom: 1px solid #e2e8f0;
-            color: #333;
         }
         .col-cant { width: 80px; text-align: center; font-weight: bold; }
-        .col-cod { width: 150px; color: #64748b; }
+        .col-cod { width: 140px; color: #64748b; font-family: monospace; font-size: 12px; }
+        .col-desc { font-weight: 500; }
 
-        /* Sección Inferior (Nota + Totales) */
-        .footer-section {
+        /* 4. SECCIÓN INFERIOR: NOTA Y TOTALES */
+        .bottom-section {
             display: flex;
             justify-content: space-between;
-            align-items: flex-end;
-            margin-top: auto; /* Empuja esto al final si hace falta */
+            align-items: flex-start;
+            margin-top: auto; /* Empuja esto al final del contenido disponible */
         }
 
-        .nota {
-            width: 50%;
+        .nota-tecnica {
+            width: 55%;
             background-color: #f0fdf4;
             border-left: 5px solid #16a34a;
             padding: 15px;
-            border-radius: 0 4px 4px 0;
+            border-radius: 4px;
         }
-        .nota h4 { margin: 0 0 8px 0; color: #166534; font-size: 15px; }
-        .nota p { margin: 0; font-size: 13px; color: #15803d; line-height: 1.5; }
+        .nota-tecnica h4 { color: #166534; font-size: 14px; margin-bottom: 6px; display: flex; align-items: center;}
+        .nota-tecnica p { color: #15803d; font-size: 12px; line-height: 1.5; }
 
-        .totales {
+        .totales-box {
             width: 40%;
             background-color: #f8fafc;
-            padding: 15px 20px;
             border: 1px solid #e2e8f0;
             border-radius: 6px;
+            padding: 15px;
         }
-        .totales-row {
+        .fila-total {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 14px;
+            font-size: 13px;
             color: #475569;
+            margin-bottom: 8px;
         }
-        .totales-row.iva {
+        .fila-total.iva {
             border-bottom: 1px solid #cbd5e1;
-            padding-bottom: 10px;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
         }
-        .totales-row.gran-total {
-            margin-top: 15px;
-            margin-bottom: 0;
-            font-size: 20px;
-            font-weight: bold;
-            color: #1d4ed8;
-        }
-        .totales-row span.monto {
-            font-weight: bold;
+        .fila-total.gran-total {
+            font-size: 18px;
             color: #0f172a;
+            font-weight: 900;
+            margin-bottom: 0;
         }
+        .monto { font-weight: bold; color: #0f172a; }
 
-        .legal {
+        /* LEGAL */
+        .texto-legal {
             text-align: center;
             font-size: 11px;
             color: #94a3b8;
-            margin-top: 40px;
-            border-top: 1px solid #f1f5f9;
+            margin-top: 30px;
             padding-top: 15px;
+            border-top: 1px solid #f1f5f9;
         }
 
-        /* MAGIA PARA IMPRESIÓN PERFECTA */
+        /* 🚀 REGLAS DE IMPRESIÓN EXTREMADAMENTE ESTRICTAS PARA VERCEL/CHROME 🚀 */
         @media print {
             @page {
-                size: A4 portrait;
-                margin: 0 !important; /* Eliminamos los márgenes por defecto de Chrome/Edge */
+                size: A4 portrait !important;
+                margin: 0 !important; /* Corta todos los márgenes del navegador */
             }
             body {
                 background-color: white !important;
                 padding: 0 !important;
                 margin: 0 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
             .no-print {
-                display: none !important;
+                display: none !important; /* Desaparece el botón GARANTIZADO */
             }
             .a4-container {
                 width: 210mm !important;
-                height: 297mm !important; /* Forzamos el alto exacto para que no cree otra hoja */
-                padding: 15mm !important; /* Este es el margen real que verás en el PDF */
-                box-shadow: none !important;
+                height: 296.5mm !important; /* 0.5mm menos para evitar que Chrome tire hoja en blanco */
                 margin: 0 !important;
+                padding: 15mm 20mm !important;
+                box-shadow: none !important;
+                border: none !important;
+                overflow: hidden !important; /* Corta pixeles fantasmas */
                 page-break-after: avoid !important;
                 page-break-inside: avoid !important;
-                -webkit-print-color-adjust: exact !important; /* Forza impresión de colores de fondo */
-                print-color-adjust: exact !important;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Botón -->
+    <!-- Botón que desaparece en PDF -->
     <div class="no-print">
         <button onclick="window.print()" class="btn-imprimir">
-            🖨️ Descargar PDF (A4 Perfecto)
+            🖨️ Generar PDF Definitivo
         </button>
     </div>
 
-    <!-- Documento -->
+    <!-- Hoja A4 -->
     <div class="a4-container">
         
-        <!-- Encabezado -->
-        <div class="header">
+        <!-- NUEVO: ESPACIO PARA LOS 3 LOGOS -->
+        <div class="logos-header">
+            <!-- LOGO 1: +VOS -->
+            <div class="logo-box">
+                <!-- Cuando tengas tu logo, borra el texto "Logo +VOS" y descomenta la etiqueta img -->
+                Logo +VOS
+                <!-- <img src="URL_DE_TU_LOGO_MASVOS.png" alt="+VOS"> -->
+            </div>
+            
+            <!-- LOGO 2: AGROCONSULTA -->
+            <div class="logo-box">
+                <!-- Cuando tengas tu logo, borra el texto "Logo Agroconsulta" y descomenta la etiqueta img -->
+                Logo Agroconsulta
+                <!-- <img src="URL_DE_TU_LOGO_AGROCONSULTA.png" alt="Agroconsulta"> -->
+            </div>
+            
+            <!-- LOGO 3: BAHCO -->
+            <div class="logo-box">
+                <!-- Cuando tengas tu logo, borra el texto "Logo Bahco" y descomenta la etiqueta img -->
+                Logo Bahco
+                <!-- <img src="URL_DE_TU_LOGO_BAHCO.png" alt="Bahco"> -->
+            </div>
+        </div>
+
+        <!-- Encabezado de Datos -->
+        <div class="info-section">
             <div class="empresa">
                 <h1>AGROCONSULTA SRL</h1>
                 <p>O'Higgins Este 1289</p>
                 <p>5400 - San Juan, Capital</p>
-                <p>Tel: 3515173310</p>
+                <p class="telefono">Tel: 3515173310</p>
             </div>
-            <div class="info-doc">
+            <div class="documento-info">
                 <h2>Presupuesto</h2>
                 <p>Fecha: 22/04/2026</p>
             </div>
         </div>
 
-        <!-- Detalles -->
+        <!-- Tabla -->
         <table>
             <thead>
                 <tr>
@@ -211,60 +271,63 @@
                 <tr>
                     <td class="col-cant">30,00</td>
                     <td class="col-cod">016001000115006</td>
-                    <td>TIJERON PODAR BAHCO - P16-60-F TWO HAND LOPPER 60c</td>
+                    <td class="col-desc">TIJERON PODAR BAHCO - P16-60-F TWO HAND LOPPER 60c</td>
                 </tr>
                 <tr>
                     <td class="col-cant">100,00</td>
                     <td class="col-cod">016001000115015</td>
-                    <td>TIJERON PODAR BAHCO REPUESTO - TOPE R515VS-BULK50 (1) C/U</td>
+                    <td class="col-desc">TIJERON PODAR BAHCO REPUESTO - TOPE R515VS-BULK50 (1) C/U</td>
                 </tr>
                 <tr>
                     <td class="col-cant">50,00</td>
                     <td class="col-cod">016001000115018</td>
-                    <td>TIJERON PODAR BAHCO REPUESTO - JUEGO R143PVCB-BULK50 P/P16-1 C/</td>
+                    <td class="col-desc">TIJERON PODAR BAHCO REPUESTO - JUEGO R143PVCB-BULK50 P/P16-1 C/</td>
                 </tr>
                 <tr>
                     <td class="col-cant">50,00</td>
                     <td class="col-cod">016001000115017</td>
-                    <td>TIJERON PODAR BAHCO REPUESTO - HOJA R116V-BULK36 P/P16 (1) C/U</td>
+                    <td class="col-desc">TIJERON PODAR BAHCO REPUESTO - HOJA R116V-BULK36 P/P16 (1) C/U</td>
                 </tr>
                 <tr>
                     <td class="col-cant">30,00</td>
                     <td class="col-cod">016001000115284</td>
-                    <td>TIJERON PODAR BAHCO REPUESTO - CONTRAHOJA R716VCB P/P16 (1) C/U</td>
+                    <td class="col-desc">TIJERON PODAR BAHCO REPUESTO - CONTRAHOJA R716VCB P/P16 (1) C/U</td>
                 </tr>
                 <tr>
                     <td class="col-cant">30,00</td>
                     <td class="col-cod">016001000115016</td>
-                    <td>TIJERON PODAR BAHCO REPUESTO - PERNO R615V PARA P14, P16 (1) C/U</td>
+                    <td class="col-desc">TIJERON PODAR BAHCO REPUESTO - PERNO R615V PARA P14, P16 (1) C/U</td>
                 </tr>
             </tbody>
         </table>
 
-        <!-- Totales y Nota -->
-        <div class="footer-section">
-            <div class="nota">
-                <h4>¡Importante!</h4>
+        <!-- Nota y Totales -->
+        <div class="bottom-section">
+            <div class="nota-tecnica">
+                <h4>
+                    <svg style="width:16px; height:16px; margin-right:5px; fill:currentColor;" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                    ¡Importante!
+                </h4>
                 <p>Ofrecemos hacer el <strong>Servicio Técnico especializado</strong> de todas estas herramientas aquí mismo en <strong>Agroconsulta</strong>. Consúltenos.</p>
             </div>
 
-            <div class="totales">
-                <div class="totales-row">
+            <div class="totales-box">
+                <div class="fila-total">
                     <span>Subtotal:</span>
                     <span class="monto">$ 3.746.028,17</span>
                 </div>
-                <div class="totales-row iva">
+                <div class="fila-total iva">
                     <span>IVA (21%):</span>
                     <span class="monto">$ 786.665,92</span>
                 </div>
-                <div class="totales-row gran-total">
+                <div class="fila-total gran-total">
                     <span>TOTAL:</span>
                     <span>$ 4.532.694,09</span>
                 </div>
             </div>
         </div>
 
-        <div class="legal">
+        <div class="texto-legal">
             Los precios y la disponibilidad están sujetos a cambios. Este presupuesto tiene validez por 15 días.
         </div>
 
