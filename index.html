@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presupuesto - Agroconsulta SRL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            body {
+                background-color: white;
+            }
+            .no-print {
+                display: none;
+            }
+            .print-shadow-none {
+                box-shadow: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-4 md:p-8 font-sans text-gray-800">
+
+    <!-- Botón de imprimir (solo visible en pantalla) -->
+    <div class="max-w-4xl mx-auto mb-4 no-print flex justify-end">
+        <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow">
+            🖨️ Imprimir / Guardar PDF
+        </button>
+    </div>
+
+    <!-- Contenedor del Documento -->
+    <div class="max-w-4xl mx-auto bg-white p-8 md:p-12 shadow-lg rounded-sm print-shadow-none border border-gray-200">
+        
+        <!-- Encabezado -->
+        <div class="flex flex-col md:flex-row justify-between items-start border-b-2 border-gray-300 pb-6 mb-6">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">AGROCONSULTA SRL</h1>
+                <p class="text-sm text-gray-600">O'Higgins Este 1289</p>
+                <p class="text-sm text-gray-600">5400 - San Juan, Capital</p>
+                <p class="text-sm text-gray-600 mt-1">Tel: 3515173310</p>
+            </div>
+            <div class="text-right mt-4 md:mt-0">
+                <h2 class="text-2xl font-bold text-gray-400 uppercase tracking-wider">Presupuesto</h2>
+                <p class="text-sm text-gray-600 mt-2 font-semibold">Fecha: 22/04/2026</p>
+            </div>
+        </div>
+
+        <!-- Tabla de Artículos -->
+        <div class="overflow-x-auto mb-8">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-gray-100 text-gray-700 uppercase text-sm leading-normal border-b-2 border-gray-300">
+                        <th class="py-3 px-4 w-24 text-center">Cantidad</th>
+                        <th class="py-3 px-4 w-40">Código</th>
+                        <th class="py-3 px-4">Detalle del Artículo</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-700 text-sm">
+                    <tr class="border-b border-gray-200 hover:bg-gray-50">
+                        <td class="py-3 px-4 text-center font-semibold">30,00</td>
+                        <td class="py-3 px-4 text-gray-500">016001000115006</td>
+                        <td class="py-3 px-4 font-medium">TIJERON PODAR BAHCO - P16-60-F TWO HAND LOPPER 60c</td>
+                    </tr>
+                    <tr class="border-b border-gray-200 hover:bg-gray-50">
+                        <td class="py-3 px-4 text-center font-semibold">100,00</td>
+                        <td class="py-3 px-4 text-gray-500">016001000115015</td>
+                        <td class="py-3 px-4 font-medium">TIJERON PODAR BAHCO REPUESTO - TOPE R515VS-BULK50 (1) C/U</td>
+                    </tr>
+                    <tr class="border-b border-gray-200 hover:bg-gray-50">
+                        <td class="py-3 px-4 text-center font-semibold">50,00</td>
+                        <td class="py-3 px-4 text-gray-500">016001000115018</td>
+                        <td class="py-3 px-4 font-medium">TIJERON PODAR BAHCO REPUESTO - JUEGO R143PVCB-BULK50 P/P16-1 C/</td>
+                    </tr>
+                    <tr class="border-b border-gray-200 hover:bg-gray-50">
+                        <td class="py-3 px-4 text-center font-semibold">50,00</td>
+                        <td class="py-3 px-4 text-gray-500">016001000115017</td>
+                        <td class="py-3 px-4 font-medium">TIJERON PODAR BAHCO REPUESTO - HOJA R116V-BULK36 P/P16 (1) C/U</td>
+                    </tr>
+                    <tr class="border-b border-gray-200 hover:bg-gray-50">
+                        <td class="py-3 px-4 text-center font-semibold">30,00</td>
+                        <td class="py-3 px-4 text-gray-500">016001000115284</td>
+                        <td class="py-3 px-4 font-medium">TIJERON PODAR BAHCO REPUESTO - CONTRAHOJA R716VCB P/P16 (1) C/U</td>
+                    </tr>
+                    <tr class="border-b border-gray-200 hover:bg-gray-50">
+                        <td class="py-3 px-4 text-center font-semibold">30,00</td>
+                        <td class="py-3 px-4 text-gray-500">016001000115016</td>
+                        <td class="py-3 px-4 font-medium">TIJERON PODAR BAHCO REPUESTO - PERNO R615V PARA P14, P16 (1) C/U</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Sección de Totales y Nota -->
+        <div class="flex flex-col md:flex-row justify-between items-end">
+            
+            <!-- Nota de Servicio Técnico -->
+            <div class="w-full md:w-1/2 mb-6 md:mb-0">
+                <div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-r">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <svg class="h-5 w-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm font-bold text-green-800">
+                                ¡Importante!
+                            </p>
+                            <p class="text-sm text-green-700 mt-1">
+                                Ofrecemos hacer el <strong>Servicio Técnico especializado</strong> de todas estas herramientas aquí mismo en <strong>Agroconsulta</strong>. Consúltenos.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Totales -->
+            <div class="w-full md:w-1/3 bg-gray-50 p-6 rounded border border-gray-200">
+                <div class="flex justify-between mb-2">
+                    <span class="text-gray-600 font-medium">Subtotal:</span>
+                    <span class="text-gray-800 font-semibold">$ 3.746.028,17</span>
+                </div>
+                <div class="flex justify-between mb-2 border-b border-gray-300 pb-2">
+                    <span class="text-gray-600 font-medium">IVA (21%):</span>
+                    <span class="text-gray-800 font-semibold">$ 786.665,92</span>
+                </div>
+                <div class="flex justify-between mt-4">
+                    <span class="text-xl font-bold text-gray-900">TOTAL:</span>
+                    <span class="text-xl font-bold text-blue-700">$ 4.532.694,09</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mt-12 pt-4 border-t border-gray-200 text-center text-xs text-gray-400">
+            Los precios y la disponibilidad están sujetos a cambios. Este presupuesto tiene validez por 15 días.
+        </div>
+    </div>
+
+</body>
+</html>
