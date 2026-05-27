@@ -3,360 +3,298 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Presupuesto - Agroconsulta SRL</title>
+    <title>Propuesta Comercial - Agroconsulta</title>
+    
+    <!-- Importamos Tailwind CSS para el diseño -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Importamos React para la lógica -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Importamos Babel para que el navegador entienda el código JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
     <style>
-        /* RESETEO Y FUENTES */
-        * {
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        
-        body {
-            background-color: #cbd5e1; /* Fondo gris para la vista web */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
-
-        /* BOTÓN DE IMPRIMIR */
-        .no-print {
-            margin-bottom: 20px;
-        }
-        .btn-imprimir {
-            background-color: #059669; /* Verde profesional */
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            font-size: 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            transition: background 0.2s;
-        }
-        .btn-imprimir:hover { background-color: #047857; }
-
-        /* CONTENEDOR A4 EXACTO */
-        .a4-container {
-            background-color: white;
-            width: 210mm;
-            min-height: 297mm; /* Alto en pantalla */
-            padding: 15mm 20mm; /* Márgenes internos: Arriba/Abajo 15mm, Lados 20mm */
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* 1. SECCIÓN DE LOGOS (NUEVO) */
-        .logos-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #059669; /* Zócalo verde profesional */
-            padding: 15px 20px;
-            border-radius: 8px; /* Bordes redondeados */
-            margin-bottom: 25px;
-            height: 110px; /* Un poco más de altura para que el zócalo respire */
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .logo-box {
-            width: 30%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            /* Se ve transparente pero con un borde blanco punteado suave para guiar el clic */
-            background-color: transparent;
-            border: 1px dashed rgba(255, 255, 255, 0.4); 
-            border-radius: 4px;
-            color: #ffffff;
-            font-size: 12px;
-            font-weight: bold;
-            overflow: hidden;
-            cursor: pointer; /* Agregado cursor de mano para indicar que es clickeable */
-            transition: opacity 0.2s, background-color 0.2s;
-        }
-
-        .logo-box:hover {
-            opacity: 0.8; /* Efecto visual al pasar el mouse */
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .logo-box img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain; /* Ajusta la imagen sin deformarla */
-            /* Si la imagen que subís tiene fondo blanco, esto asegurará que se vea el recuadro blanco entero */
-            background-color: transparent; 
-        }
-
-        /* 2. DATOS DE LA EMPRESA Y DOCUMENTO */
-        .info-section {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 25px;
-        }
-        .empresa h1 { font-size: 22px; color: #0f172a; margin-bottom: 5px; text-transform: uppercase; }
-        .empresa p { font-size: 13px; color: #475569; margin-bottom: 3px; }
-        .empresa .telefono { font-weight: bold; color: #334155; margin-top: 5px; }
-        
-        .documento-info { text-align: right; }
-        .documento-info h2 { font-size: 24px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
-        .documento-info p { font-size: 14px; font-weight: bold; color: #0f172a; }
-
-        /* 3. TABLA DE ARTÍCULOS */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 30px;
-        }
-        th {
-            background-color: #f1f5f9;
-            text-align: left;
-            padding: 12px 8px;
-            font-size: 12px;
-            color: #475569;
-            border-bottom: 2px solid #cbd5e1;
-            text-transform: uppercase;
-        }
-        td {
-            padding: 12px 8px;
-            font-size: 13px;
-            color: #1e293b;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        .col-cant { width: 80px; text-align: center; font-weight: bold; }
-        .col-cod { width: 140px; color: #64748b; font-family: monospace; font-size: 12px; }
-        .col-desc { font-weight: 500; }
-
-        /* 4. SECCIÓN INFERIOR: NOTA Y TOTALES */
-        .bottom-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-top: auto; /* Empuja esto al final del contenido disponible */
-        }
-
-        .nota-tecnica {
-            width: 55%;
-            background-color: #f0fdf4;
-            border-left: 5px solid #16a34a;
-            padding: 15px;
-            border-radius: 4px;
-        }
-        .nota-tecnica h4 { color: #166534; font-size: 14px; margin-bottom: 6px; display: flex; align-items: center;}
-        .nota-tecnica p { color: #15803d; font-size: 12px; line-height: 1.5; }
-
-        .totales-box {
-            width: 40%;
-            background-color: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            padding: 15px;
-        }
-        .fila-total {
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-            color: #475569;
-            margin-bottom: 8px;
-        }
-        .fila-total.iva {
-            border-bottom: 1px solid #cbd5e1;
-            padding-bottom: 8px;
-            margin-bottom: 12px;
-        }
-        .fila-total.gran-total {
-            font-size: 18px;
-            color: #0f172a;
-            font-weight: 900;
-            margin-bottom: 0;
-        }
-        .monto { font-weight: bold; color: #0f172a; }
-
-        /* LEGAL */
-        .texto-legal {
-            text-align: center;
-            font-size: 11px;
-            color: #94a3b8;
-            margin-top: 30px;
-            padding-top: 15px;
-            border-top: 1px solid #f1f5f9;
-        }
-
-        /* 🚀 REGLAS DE IMPRESIÓN EXTREMADAMENTE ESTRICTAS PARA VERCEL/CHROME 🚀 */
+        /* Aseguramos que al imprimir el fondo sea blanco */
         @media print {
-            @page {
-                size: A4 portrait !important;
-                margin: 0 !important; /* Corta todos los márgenes del navegador */
-            }
-            body {
-                background-color: white !important;
-                padding: 0 !important;
-                margin: 0 !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-            .no-print {
-                display: none !important; /* Desaparece el botón GARANTIZADO */
-            }
-            .a4-container {
-                width: 210mm !important;
-                height: 296.5mm !important; /* 0.5mm menos para evitar que Chrome tire hoja en blanco */
-                margin: 0 !important;
-                padding: 15mm 20mm !important;
-                box-shadow: none !important;
-                border: none !important;
-                overflow: hidden !important; /* Corta pixeles fantasmas */
-                page-break-after: avoid !important;
-                page-break-inside: avoid !important;
-            }
+            body { background-color: white !important; }
         }
     </style>
 </head>
-<body>
+<body class="bg-gray-200">
+    
+    <!-- Aquí es donde React inyectará nuestra aplicación -->
+    <div id="root"></div>
 
-    <!-- Botón que desaparece en PDF -->
-    <div class="no-print">
-        <button onclick="window.print()" class="btn-imprimir">
-            🖨️ Generar PDF Definitivo
-        </button>
-    </div>
+    <script type="text/babel">
+        const { useState } = React;
 
-    <!-- Hoja A4 -->
-    <div class="a4-container">
-        
-        <!-- ESPACIO PARA LOS 3 LOGOS CON ZÓCALO VERDE (CLICK PARA CARGAR) -->
-        <div class="logos-header">
-            
-            <!-- LOGO 1: +VOS -->
-            <div class="logo-box" onclick="document.getElementById('inputLogo1').click()" title="Haz clic para cargar el logo de +VOS">
-                <img id="imgLogo1" src="https://placehold.co/200x80/059669/ffffff?text=Clic+aqui+para+logo++VOS" alt="Logo +VOS">
-                <!-- Input oculto para subir archivo -->
-                <input type="file" id="inputLogo1" accept="image/*" style="display: none;" onchange="cargarLogoLocal(event, 'imgLogo1')">
-            </div>
-            
-            <!-- LOGO 2: AGROCONSULTA -->
-            <div class="logo-box" onclick="document.getElementById('inputLogo2').click()" title="Haz clic para cargar el logo de Agroconsulta">
-                <img id="imgLogo2" src="https://placehold.co/200x80/059669/ffffff?text=Clic+aqui+para+AGROCONSULTA" alt="Logo Agroconsulta">
-                <input type="file" id="inputLogo2" accept="image/*" style="display: none;" onchange="cargarLogoLocal(event, 'imgLogo2')">
-            </div>
-            
-            <!-- LOGO 3: BAHCO -->
-            <div class="logo-box" onclick="document.getElementById('inputLogo3').click()" title="Haz clic para cargar el logo de Bahco">
-                <img id="imgLogo3" src="https://placehold.co/200x80/059669/ffffff?text=Clic+aqui+para+BAHCO" alt="Logo Bahco">
-                <input type="file" id="inputLogo3" accept="image/*" style="display: none;" onchange="cargarLogoLocal(event, 'imgLogo3')">
-            </div>
+        // --- ICONOS ---
+        const FileText = () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>;
+        const Download = () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>;
+        const Building2 = () => <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path><path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path></svg>;
+        const MapPin = () => <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>;
+        const Phone = () => <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>;
+        const Mail = () => <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>;
+        const CheckCircle = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className || "text-emerald-600 mt-0.5 flex-shrink-0"}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>;
 
-        </div>
+        function App() {
+          const [proposalData, setProposalData] = useState({
+            company: {
+              name: "Agroconsulta",
+              representative: "Leandro Javier Garcia",
+              address: "San Juan",
+              city: "San Juan, Argentina",
+              phone: "+54 9 351 517-3310",
+              email: "garciaejarquel@gmail.com"
+            },
+            client: {
+              name: "La Casa del Pistacho",
+              contact: "Atte: Sector compras",
+              address: "",
+              email: ""
+            },
+            details: {
+              title: "OPTIMIZACIÓN DE PODA ESTRUCTURAL",
+              campaign: "Campaña 2026",
+              quoteNumber: "COT-2026-0043",
+              date: new Date().toLocaleDateString('es-AR'),
+              validity: "Sujeta a stock",
+            },
+            products: [
+              {
+                id: 1,
+                name: "Bahco BCL240",
+                description: "Tijera eléctrica. Capacidad de corte hasta 40 mm. Indicada para formación de plantas jóvenes y manejo estructural en árboles adultos.",
+                quantity: 4,
+                unitPrice: 866192.25
+              },
+              {
+                id: 2,
+                name: "Bahco BCL25TP",
+                description: "Pértiga telescópica compatible con BCL240. Permite realizar trabajos en altura sin escalera, mejorando seguridad y eficiencia.",
+                quantity: 4,
+                unitPrice: 432353.25
+              }
+            ],
+            taxRate: 0.21,
+            discountRate: 0.04 // 4% de descuento
+          });
 
-        <!-- Encabezado de Datos -->
-        <div class="info-section">
-            <div class="empresa">
-                <h1>AGROCONSULTA SRL</h1>
-                <p>O'Higgins Este 1289</p>
-                <p>5400 - San Juan, Capital</p>
-                <p class="telefono">Tel: 3515173310</p>
-            </div>
-            <div class="documento-info">
-                <h2>Presupuesto</h2>
-                <p>Fecha: 22/04/2026</p>
-            </div>
-        </div>
+          // Cálculos precisos con descuento
+          const subtotal = proposalData.products.reduce((acc, item) => acc + (item.quantity * item.unitPrice), 0);
+          const discountAmount = subtotal * proposalData.discountRate;
+          const subtotalAfterDiscount = subtotal - discountAmount;
+          const taxes = subtotalAfterDiscount * proposalData.taxRate;
+          const total = subtotalAfterDiscount + taxes;
 
-        <!-- Tabla -->
-        <table>
-            <thead>
-                <tr>
-                    <th class="col-cant">Cantidad</th>
-                    <th class="col-cod">Código</th>
-                    <th>Detalle del Artículo</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="col-cant">30,00</td>
-                    <td class="col-cod">016001000115006</td>
-                    <td class="col-desc">TIJERON PODAR BAHCO - P16-60-F TWO HAND LOPPER 60c</td>
-                </tr>
-                <tr>
-                    <td class="col-cant">100,00</td>
-                    <td class="col-cod">016001000115015</td>
-                    <td class="col-desc">TIJERON PODAR BAHCO REPUESTO - TOPE R515VS-BULK50 (1) C/U</td>
-                </tr>
-                <tr>
-                    <td class="col-cant">50,00</td>
-                    <td class="col-cod">016001000115018</td>
-                    <td class="col-desc">TIJERON PODAR BAHCO REPUESTO - JUEGO R143PVCB-BULK50 P/P16-1 C/</td>
-                </tr>
-                <tr>
-                    <td class="col-cant">50,00</td>
-                    <td class="col-cod">016001000115017</td>
-                    <td class="col-desc">TIJERON PODAR BAHCO REPUESTO - HOJA R116V-BULK36 P/P16 (1) C/U</td>
-                </tr>
-                <tr>
-                    <td class="col-cant">30,00</td>
-                    <td class="col-cod">016001000115284</td>
-                    <td class="col-desc">TIJERON PODAR BAHCO REPUESTO - CONTRAHOJA R716VCB P/P16 (1) C/U</td>
-                </tr>
-                <tr>
-                    <td class="col-cant">30,00</td>
-                    <td class="col-cod">016001000115016</td>
-                    <td class="col-desc">TIJERON PODAR BAHCO REPUESTO - PERNO R615V PARA P14, P16 (1) C/U</td>
-                </tr>
-            </tbody>
-        </table>
+          const formatCurrency = (amount) => {
+            return new Intl.NumberFormat('es-AR', {
+              style: 'currency',
+              currency: 'ARS',
+              minimumFractionDigits: 2
+            }).format(amount);
+          };
 
-        <!-- Nota y Totales -->
-        <div class="bottom-section">
-            <div class="nota-tecnica">
-                <h4>
-                    <svg style="width:16px; height:16px; margin-right:5px; fill:currentColor;" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-                    ¡Importante!
-                </h4>
-                <p>Ofrecemos hacer el <strong>Servicio Técnico especializado</strong> de todas estas herramientas aquí mismo en <strong>Agroconsulta</strong>. Consúltenos.</p>
-            </div>
+          const handleDownloadPDF = () => {
+            window.print();
+          };
 
-            <div class="totales-box">
-                <div class="fila-total">
-                    <span>Subtotal:</span>
-                    <span class="monto">$ 3.746.028,17</span>
+          return (
+            <div className="min-h-screen bg-gray-200 py-8 print:py-0 print:bg-white flex justify-center font-sans text-gray-800">
+              <div className="w-full max-w-4xl bg-white shadow-2xl rounded-lg overflow-hidden print:shadow-none print:rounded-none">
+                
+                <div className="bg-emerald-800 text-white p-4 flex justify-between items-center print:hidden rounded-t-lg">
+                  <div className="flex items-center gap-2">
+                    <FileText />
+                    <h1 className="font-semibold text-lg">Editor de Propuesta: Agroconsulta</h1>
+                  </div>
+                  <button 
+                    onClick={handleDownloadPDF}
+                    className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-2 rounded-md transition-colors font-semibold shadow-md"
+                  >
+                    <Download />
+                    Descargar PDF (Instantáneo)
+                  </button>
                 </div>
-                <div class="fila-total iva">
-                    <span>IVA (21%):</span>
-                    <span class="monto">$ 786.665,92</span>
+
+                <div className="p-10 sm:p-14 print:p-0 print:m-0">
+                  <div className="flex justify-between items-start border-b-2 border-emerald-700 pb-6 mb-6">
+                    <div>
+                      <div className="flex items-center gap-2 mb-2 text-emerald-800">
+                        <Building2 />
+                        <h2 className="text-4xl font-black tracking-tighter uppercase">{proposalData.company.name}</h2>
+                      </div>
+                      <div className="text-sm text-gray-600 flex flex-wrap gap-x-4 gap-y-2 mt-1">
+                        <span className="flex items-center gap-1 font-bold text-emerald-900">{proposalData.company.representative}</span>
+                        <span className="flex items-center gap-1"><Phone /> {proposalData.company.phone}</span>
+                        <span className="flex items-center gap-1"><Mail /> {proposalData.company.email}</span>
+                        <span className="flex items-center gap-1"><MapPin /> {proposalData.company.city}</span>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <h1 className="text-3xl font-light text-emerald-800/40 mb-1 uppercase tracking-widest">Propuesta</h1>
+                      <p className="text-sm font-bold text-emerald-900">{proposalData.details.quoteNumber}</p>
+                      <p className="text-sm text-gray-600">Fecha: {proposalData.details.date}</p>
+                    </div>
+                  </div>
+
+                  <div className="text-center mb-8">
+                    <h2 className="text-2xl font-bold text-gray-900">{proposalData.details.title}</h2>
+                    <h3 className="text-lg text-emerald-700 font-medium">{proposalData.details.campaign}</h3>
+                    <p className="text-sm text-gray-500 mt-1">Tecnología Profesional para Frutales</p>
+                  </div>
+
+                  <div className="mb-8 bg-slate-50 p-6 rounded-lg print:bg-white print:border print:p-4">
+                    <h3 className="text-xs font-bold uppercase text-emerald-600 mb-2 tracking-wider">Preparado para:</h3>
+                    <p className="text-xl font-bold text-gray-900">{proposalData.client.name}</p>
+                    <p className="text-sm text-gray-700 font-medium mt-1">{proposalData.client.contact}</p>
+                  </div>
+
+                  <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">
+                    {/* Columna Izquierda: Comunidad y Enfoque Estratégico */}
+                    <div className="pt-2">
+                      <h4 className="font-bold text-emerald-800 uppercase mb-2 border-b border-emerald-100 pb-1">1. Comunidad +VOS y Sinergia Productiva</h4>
+                      <p className="text-gray-700 text-justify leading-relaxed mb-3">
+                        Como parte de nuestra propuesta de valor, invitamos a <strong>La Casa del Pistacho</strong> a integrarse a la <strong>comunidad +VOS</strong> (Sinergia entre insumos y servicios), un espacio impulsado por Agroconsulta orientado a fortalecer la cadena de valor agrícola en San Juan articulando innovación productiva.
+                      </p>
+                      <p className="text-gray-700 text-justify leading-relaxed">
+                        La incorporación de tecnología profesional eléctrica, como las herramientas Bahco, representa una inversión estratégica que impacta simultáneamente en tres dimensiones clave:
+                      </p>
+                      <ul className="list-disc list-inside space-y-1 text-gray-700 ml-2 mt-2">
+                        <li><strong>Productividad:</strong> mayor eficiencia operativa y velocidad.</li>
+                        <li><strong>Calidad técnica:</strong> cortes más precisos y uniformes.</li>
+                        <li><strong>Impacto social:</strong> mejora en condiciones laborales del equipo.</li>
+                      </ul>
+                    </div>
+
+                    {/* Columna Derecha: Capacitación y Beneficios (RESALTADA EN NARANJA) */}
+                    <div className="bg-orange-50 border border-orange-200 p-6 rounded-xl shadow-sm print:shadow-none print:border-orange-300">
+                      <h4 className="font-bold text-orange-800 uppercase mb-3 border-b border-orange-200 pb-2">2. Acompañamiento y Beneficios Exclusivos</h4>
+                      
+                      <div className="bg-orange-100/80 border border-orange-200 p-3 rounded-lg mb-4 flex items-start gap-2">
+                        <CheckCircle className="text-orange-600 mt-0.5 flex-shrink-0" />
+                        <p className="text-orange-900 text-sm font-medium leading-snug">
+                          Al ser <strong>oficiales de Bahco</strong>, aseguramos respaldo técnico directo, trazabilidad en cada equipo y logística garantizada.
+                        </p>
+                      </div>
+
+                      <p className="text-gray-800 text-justify leading-relaxed mb-4">
+                        Agroconsulta acompañará la implementación para asegurar mayor vida útil y profesionalización, enfocándose mediante capacitaciones en: <strong className="text-orange-900">uso correcto y seguro, buenas prácticas de poda y mantenimiento preventivo.</strong>
+                      </p>
+                      <p className="text-orange-900 font-bold mb-3">Beneficios al acceder a la red +VOS:</p>
+                      <ul className="space-y-2.5 text-gray-800">
+                        <li className="flex items-start gap-2">
+                          <CheckCircle className="text-orange-500 mt-0.5 flex-shrink-0" />
+                          <span>Condiciones preferenciales en herramientas Bahco.</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <CheckCircle className="text-orange-500 mt-0.5 flex-shrink-0" />
+                          <span>Descuentos exclusivos en repuestos originales.</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <CheckCircle className="text-orange-500 mt-0.5 flex-shrink-0" />
+                          <span>Servicio de revisión y reparación previo a cada temporada.</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <CheckCircle className="text-orange-500 mt-0.5 flex-shrink-0" />
+                          <span>Acceso a capacitaciones técnicas y jornadas de campo.</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <CheckCircle className="text-orange-500 mt-0.5 flex-shrink-0" />
+                          <span>Integración a una red de empresas que buscan eficiencia y sostenibilidad.</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div className="mb-8">
+                    <h4 className="font-bold text-emerald-800 uppercase mb-3 border-b border-emerald-100 pb-1 text-sm">3. Inversión en Equipos (Bahco)</h4>
+                    <table className="w-full text-left border-collapse">
+                      <thead>
+                        <tr className="bg-emerald-50 text-sm uppercase tracking-wider text-emerald-900">
+                          <th className="py-3 px-3 font-bold w-1/2 rounded-tl-md">Equipo / Descripción</th>
+                          <th className="py-3 px-3 font-bold text-center">Cant.</th>
+                          <th className="py-3 px-3 font-bold text-right">Valor Unit.</th>
+                          <th className="py-3 px-3 font-bold text-right rounded-tr-md">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-emerald-100">
+                        {proposalData.products.map((product) => (
+                          <tr key={product.id} className="text-sm group">
+                            <td className="py-4 px-3 align-top">
+                              <p className="font-bold text-gray-900 text-base">{product.name}</p>
+                              <p className="text-gray-600 mt-1 leading-relaxed">{product.description}</p>
+                            </td>
+                            <td className="py-4 px-3 text-center text-gray-800 font-medium align-top">{product.quantity}</td>
+                            <td className="py-4 px-3 text-right text-gray-800 align-top">{formatCurrency(product.unitPrice)}</td>
+                            <td className="py-4 px-3 text-right font-bold text-emerald-900 align-top">{formatCurrency(product.quantity * product.unitPrice)}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row justify-between items-start gap-8 mb-12">
+                    <div className="bg-slate-50 p-5 rounded-lg border border-slate-200 w-full sm:w-1/2 print:border-none print:bg-gray-50">
+                      <h4 className="font-bold text-gray-800 mb-2 uppercase text-xs tracking-wider">Condiciones Comerciales y de Pago</h4>
+                      <ul className="text-sm text-gray-700 space-y-2">
+                        <li><span className="font-semibold text-gray-900">Medio de pago:</span> Cheque electrónico (eCheq).</li>
+                        <li><span className="font-semibold text-gray-900">Plazos:</span> 30 y 60 días.</li>
+                      </ul>
+                    </div>
+
+                    <div className="w-full sm:w-1/2 max-w-sm ml-auto">
+                      <div className="flex justify-between py-2 text-sm text-gray-600">
+                        <span>Subtotal Equipos</span>
+                        <span>{formatCurrency(subtotal)}</span>
+                      </div>
+                      
+                      {/* Descuento Especial */}
+                      <div className="flex justify-between py-2 text-sm text-emerald-600 font-medium border-b border-gray-100 pb-2">
+                        <span>Descuento Especial ({(proposalData.discountRate * 100).toFixed(0)}%)</span>
+                        <span>- {formatCurrency(discountAmount)}</span>
+                      </div>
+                      
+                      <div className="flex justify-between py-2 text-sm text-gray-600 mt-1">
+                        <span>Subtotal Neto</span>
+                        <span>{formatCurrency(subtotalAfterDiscount)}</span>
+                      </div>
+                      
+                      <div className="flex justify-between py-2 text-sm text-gray-600">
+                        <span>IVA ({(proposalData.taxRate * 100).toFixed(1)}%)</span>
+                        <span>{formatCurrency(taxes)}</span>
+                      </div>
+                      <div className="flex justify-between py-3 border-t-2 border-emerald-800 mt-1 bg-emerald-50 px-3 rounded-sm print:bg-transparent">
+                        <span className="text-lg font-black text-emerald-900 uppercase">Total Final</span>
+                        <span className="text-lg font-black text-emerald-900">{formatCurrency(total)}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="border-t-2 border-gray-100 pt-6 mt-8 text-xs text-gray-500">
+                    <h4 className="font-bold text-gray-700 mb-2 uppercase tracking-wider">Condiciones Generales</h4>
+                    <ul className="list-disc list-inside space-y-1.5 columns-1 sm:columns-2">
+                      <li>Valores expresados en pesos argentinos (ARS), más IVA.</li>
+                      <li>Oferta sujeta a disponibilidad de stock en el momento de la confirmación.</li>
+                      <li>La confirmación del pedido permite coordinar entrega.</li>
+                      <li><strong>Incluye:</strong> Acompañamiento técnico y capacitación.</li>
+                    </ul>
+                    <p className="mt-6 text-center italic font-medium text-emerald-800/80">
+                      "Desde Agroconsulta entendemos que la tecnología genera confianza, y la sostenibilidad construye valor en el tiempo. Este proyecto busca integrar ambas dimensiones para fortalecer el desarrollo productivo de la región."
+                    </p>
+                  </div>
+
                 </div>
-                <div class="fila-total gran-total">
-                    <span>TOTAL:</span>
-                    <span>$ 4.532.694,09</span>
-                </div>
+              </div>
             </div>
-        </div>
-
-        <div class="texto-legal">
-            Los precios y la disponibilidad están sujetos a cambios. Este presupuesto tiene validez por 15 días.
-        </div>
-
-    </div>
-
-    <!-- SCRIPT PARA CARGAR LAS IMÁGENES AL HACER CLIC -->
-    <script>
-        function cargarLogoLocal(event, imgId) {
-            const archivo = event.target.files[0];
-            if (archivo) {
-                // Lee el archivo local que el usuario seleccionó
-                const lector = new FileReader();
-                lector.onload = function(e) {
-                    // Reemplaza la imagen temporal por la que subió el usuario
-                    document.getElementById(imgId).src = e.target.result;
-                }
-                lector.readAsDataURL(archivo);
-            }
+          );
         }
+
+        // Renderizamos la aplicación
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
     </script>
 </body>
 </html>
