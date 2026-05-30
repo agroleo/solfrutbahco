@@ -91,6 +91,23 @@
             }).format(amount);
           };
 
+          const handleImageUpload = (key, e) => {
+            const file = e.target.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = (event) => {
+                setProposalData(prev => ({
+                  ...prev,
+                  logos: {
+                    ...prev.logos,
+                    [key]: event.target.result // Guarda la imagen subida en la memoria de la página
+                  }
+                }));
+              };
+              reader.readAsDataURL(file);
+            }
+          };
+
           const handleDownloadPDF = () => {
             window.print();
           };
@@ -114,8 +131,34 @@
                   </button>
                 </div>
 
-                {/* --- CONTENIDO PRINCIPAL COMPACTADO PARA A4 --- */}
                 {}
+                <div className="bg-gray-100 p-4 border-b border-gray-300 print:hidden flex flex-wrap gap-4 items-center justify-center">
+                  <p className="w-full text-center text-sm text-gray-700 font-bold mb-1">Panel de Control: Sube los logos desde tu computadora (No saldrá en el PDF)</p>
+                  
+                  {Object.keys(proposalData.logos).map((key) => {
+                    const labels = {
+                      agroconsulta: "Agroconsulta",
+                      masVos: "+VOS",
+                      bahco: "Bahco",
+                      olivaterra: "Olivaterra"
+                    };
+                    return (
+                      <div key={key} className="flex flex-col items-center">
+                        <label className="cursor-pointer bg-white border border-gray-300 shadow-sm px-4 py-2 rounded-md text-xs font-bold text-emerald-800 hover:bg-emerald-50 transition">
+                          ↑ Cargar Logo {labels[key]}
+                          <input 
+                            type="file" 
+                            accept="image/*" 
+                            className="hidden" 
+                            onChange={(e) => handleImageUpload(key, e)} 
+                          />
+                        </label>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* --- CONTENIDO PRINCIPAL COMPACTADO PARA A4 --- */}
                 <div className="p-8 sm:p-12 print:p-4 print:m-0 print:text-[11px] leading-snug">
                   
                   {/* CABECERA CON ESPACIOS PARA 4 LOGOS */}
