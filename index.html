@@ -131,76 +131,53 @@
                   </button>
                 </div>
 
-                {}
-                <div className="bg-gray-100 p-4 border-b border-gray-300 print:hidden flex flex-wrap gap-4 items-center justify-center">
-                  <p className="w-full text-center text-sm text-gray-700 font-bold mb-1">Panel de Control: Sube los logos desde tu computadora (No saldrá en el PDF)</p>
-                  
-                  {Object.keys(proposalData.logos).map((key) => {
-                    const labels = {
-                      agroconsulta: "Agroconsulta",
-                      masVos: "+VOS",
-                      bahco: "Bahco",
-                      olivaterra: "Olivaterra"
-                    };
-                    return (
-                      <div key={key} className="flex flex-col items-center">
-                        <label className="cursor-pointer bg-white border border-gray-300 shadow-sm px-4 py-2 rounded-md text-xs font-bold text-emerald-800 hover:bg-emerald-50 transition">
-                          ↑ Cargar Logo {labels[key]}
-                          <input 
-                            type="file" 
-                            accept="image/*" 
-                            className="hidden" 
-                            onChange={(e) => handleImageUpload(key, e)} 
-                          />
-                        </label>
-                      </div>
-                    );
-                  })}
-                </div>
-
                 {/* --- CONTENIDO PRINCIPAL COMPACTADO PARA A4 --- */}
                 <div className="p-8 sm:p-12 print:p-4 print:m-0 print:text-[11px] leading-snug">
                   
-                  {/* CABECERA CON ESPACIOS PARA 4 LOGOS */}
+                  {/* CABECERA CON ESPACIOS PARA 4 LOGOS (AHORA SON BOTONES CLICKABLES) */}
                   <div className="flex justify-between items-center border-b-2 border-emerald-700 pb-3 mb-4 print:pb-2 print:mb-3">
                     
                     <div className="flex items-center gap-3 print:gap-2 w-3/4">
                       
                       {/* ESPACIO LOGO 1: Agroconsulta */}
-                      <div className="w-20 h-12 bg-emerald-900 border-2 border-emerald-900 flex items-center justify-center rounded relative overflow-hidden print:bg-emerald-900 print:border-emerald-900">
+                      <label title="Subir logo Agroconsulta" className="cursor-pointer group w-20 h-12 bg-emerald-900 border-2 border-emerald-900 hover:border-emerald-400 flex items-center justify-center rounded relative overflow-hidden print:bg-emerald-900 print:border-emerald-900 transition-colors">
                         {proposalData.logos.agroconsulta ? (
                           <img src={proposalData.logos.agroconsulta} className="w-full h-full object-contain relative z-10" />
                         ) : (
-                          <span className="absolute text-[8px] text-white font-bold uppercase text-center leading-tight print:hidden">Agroconsulta<br/>(Blanco)</span>
+                          <span className="absolute text-[8px] text-white/80 group-hover:text-white font-bold uppercase text-center leading-tight print:hidden">↑ Subir<br/>Agroconsulta</span>
                         )}
-                      </div>
+                        <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload('agroconsulta', e)} />
+                      </label>
 
                       {/* ESPACIO LOGO 2: +VOS */}
-                      <div className="w-20 h-12 bg-slate-800 border-2 border-slate-800 flex items-center justify-center rounded relative overflow-hidden print:bg-slate-800 print:border-slate-800">
+                      <label title="Subir logo +VOS" className="cursor-pointer group w-20 h-12 bg-slate-800 border-2 border-slate-800 hover:border-slate-400 flex items-center justify-center rounded relative overflow-hidden print:bg-slate-800 print:border-slate-800 transition-colors">
                         {proposalData.logos.masVos ? (
                           <img src={proposalData.logos.masVos} className="w-full h-full object-contain relative z-10" />
                         ) : (
-                          <span className="absolute text-[8px] text-white font-bold uppercase text-center leading-tight print:hidden">+VOS<br/>(Blanco)</span>
+                          <span className="absolute text-[8px] text-white/80 group-hover:text-white font-bold uppercase text-center leading-tight print:hidden">↑ Subir<br/>+VOS</span>
                         )}
-                      </div>
+                        <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload('masVos', e)} />
+                      </label>
 
                       {/* ESPACIO LOGO 3: Bahco */}
-                      <div className="w-20 h-12 bg-white border-2 border-dashed border-gray-300 flex items-center justify-center rounded relative overflow-hidden print:bg-white print:border-solid print:border-gray-200">
+                      <label title="Subir logo Bahco" className="cursor-pointer group w-20 h-12 bg-white border-2 border-dashed border-gray-300 hover:border-orange-500 flex items-center justify-center rounded relative overflow-hidden print:bg-white print:border-solid print:border-transparent transition-colors">
                         {proposalData.logos.bahco ? (
                           <img src={proposalData.logos.bahco} className="w-full h-full object-contain relative z-10" />
                         ) : (
-                          <span className="absolute text-[8px] text-orange-500 font-bold uppercase text-center leading-tight print:hidden">Bahco<br/>(Naranja)</span>
+                          <span className="absolute text-[8px] text-orange-500 font-bold uppercase text-center leading-tight print:hidden">↑ Subir<br/>Bahco</span>
                         )}
-                      </div>
+                        <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload('bahco', e)} />
+                      </label>
 
                       {/* ESPACIO LOGO 4: Olivaterra */}
-                      <div className="w-20 h-12 bg-white border-2 border-dashed border-gray-300 flex items-center justify-center rounded relative overflow-hidden print:bg-white print:border-solid print:border-gray-200">
+                      <label title="Subir logo Olivaterra" className="cursor-pointer group w-20 h-12 bg-white border-2 border-dashed border-gray-300 hover:border-blue-500 flex items-center justify-center rounded relative overflow-hidden print:bg-white print:border-solid print:border-transparent transition-colors">
                         {proposalData.logos.olivaterra ? (
                           <img src={proposalData.logos.olivaterra} className="w-full h-full object-contain relative z-10" />
                         ) : (
-                          <span className="absolute text-[8px] text-blue-600 font-bold uppercase text-center leading-tight print:hidden">Olivaterra<br/>(Azul)</span>
+                          <span className="absolute text-[8px] text-blue-600 font-bold uppercase text-center leading-tight print:hidden">↑ Subir<br/>Olivaterra</span>
                         )}
-                      </div>
+                        <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload('olivaterra', e)} />
+                      </label>
 
                     </div>
 
